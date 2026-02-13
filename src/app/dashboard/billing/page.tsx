@@ -30,7 +30,7 @@ export default function BillingPage() {
         Manage your subscription and payment methods.
       </p>
 
-      <div className="mt-8 rounded-xl border border-neutral-800 bg-neutral-900/30 p-6 space-y-6">
+      <div className="mt-8 card-glassy p-6 sm:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <p className="text-neutral-500 text-sm">Current plan</p>
@@ -66,13 +66,13 @@ export default function BillingPage() {
           ) : (
             <p className="text-neutral-500 text-sm">
               Subscribe to a plan to manage billing.{" "}
-              <Link href="/pricing" className="text-white hover:underline">
+              <Link href="/#pricing" className="text-white hover:underline">
                 View plans
               </Link>
             </p>
           )}
           <Link
-            href="/pricing"
+            href="/#pricing"
             className="px-4 py-2 rounded-full btn-ghost text-sm font-medium"
           >
             Change plan

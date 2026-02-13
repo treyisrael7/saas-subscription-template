@@ -40,16 +40,6 @@ export const PLANS = {
       "SSO (coming soon)",
     ],
   },
-  enterprise: {
-    name: "Enterprise",
-    priceId: process.env.STRIPE_ENTERPRISE_PRICE_ID || "price_enterprise",
-    features: [
-      "Everything in Team",
-      "Custom contracts",
-      "Dedicated support",
-      "SLA guarantee",
-    ],
-  },
 } as const;
 
 export type SubscriptionTier = keyof typeof PLANS;

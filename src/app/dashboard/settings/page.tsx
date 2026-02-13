@@ -44,7 +44,7 @@ export default function SettingsPage() {
       <h1 className="text-2xl font-bold text-white">Settings</h1>
       <p className="text-neutral-400 mt-2">Update your account preferences.</p>
 
-      <form onSubmit={handleSave} className="mt-8 space-y-6 max-w-md">
+      <form onSubmit={handleSave} className="mt-8 card-glassy p-6 sm:p-8 space-y-6 max-w-md">
         {message && (
           <div
             className={`rounded-lg px-4 py-3 text-sm ${

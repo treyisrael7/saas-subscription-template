@@ -17,7 +17,7 @@ export function DashboardOverview({ profile, user }: DashboardOverviewProps) {
   return (
     <div className="space-y-8">
       {checkoutSuccess && (
-        <div className="rounded-lg bg-green-500/10 border border-green-500/20 text-green-200 px-4 py-3">
+        <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-200 px-4 py-3 backdrop-blur-sm">
           Subscription activated! Your plan is now active.
         </div>
       )}
@@ -49,7 +49,7 @@ export function DashboardOverview({ profile, user }: DashboardOverviewProps) {
         />
       </div>
 
-      <div className="rounded-xl border border-neutral-800 bg-neutral-900/30 p-6">
+      <div className="card-glassy p-6 sm:p-8">
         <h2 className="text-lg font-semibold text-white mb-4">Quick stats</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Stat label="Plan" value={profile?.subscription_tier ?? "free"} />
@@ -81,7 +81,7 @@ function Card({
   return (
     <Link
       href={href}
-      className="block p-6 rounded-xl border border-neutral-800 bg-neutral-900/30 hover:border-neutral-700 transition-colors"
+      className="card-glassy block p-6 sm:p-8 transition-all duration-300"
     >
       <h3 className="font-semibold text-white">{title}</h3>
       <p className="text-neutral-400 text-sm mt-1">{description}</p>

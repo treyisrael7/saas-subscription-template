@@ -15,7 +15,6 @@ const PRICES: Record<string, { monthly: string; annual: string }> = {
   free: { monthly: "$0", annual: "$0" },
   pro: { monthly: "$19", annual: "$15" },
   team: { monthly: "$49", annual: "$39" },
-  enterprise: { monthly: "Custom", annual: "Custom" },
 };
 
 /** 3 main plans for display: Free, Pro (middle/emphasized), Team */
@@ -173,15 +172,6 @@ export function PricingContent({ user, profile }: PricingContentProps) {
           );
         })}
       </div>
-
-      {/* Enterprise CTA - subtle */}
-      <p className="mt-10 text-center text-neutral-500 text-sm">
-        Need more?{" "}
-        <Link href="/signup" className="text-white/70 hover:text-white underline underline-offset-2">
-          Enterprise plans
-        </Link>{" "}
-        available.
-      </p>
 
       {(user && profile?.subscription_tier === "free") || !user ? (
         <div className="mt-14 text-center">

@@ -17,7 +17,6 @@ function getTierFromPriceId(priceId: string | null): string {
   if (!priceId) return "free";
   if (priceId.includes("pro")) return "pro";
   if (priceId.includes("team")) return "team";
-  if (priceId.includes("enterprise")) return "enterprise";
   return "pro";
 }
 

@@ -33,6 +33,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid price" }, { status: 400 });
     }
 
+    if (finalPriceId.startsWith("prod_")) {
+      return NextResponse.json(
+        {
+          error:
+            "Stripe expects a price ID (price_xxx), not a product ID (prod_xxx). Get the price ID from Stripe Dashboard → Products → your product → Pricing.",
+        },
+        { status: 400 }
+      );
+    }
+
     const adminClient = createAdminClient();
     const { data: profile } = await adminClient
       .from("profiles")
@@ -75,7 +85,6 @@ export async function POST(request: NextRequest) {
       },
       subscription_data: {
         metadata: { supabase_user_id: user.id },
-        trial_period_days: 0,
       },
     });
 

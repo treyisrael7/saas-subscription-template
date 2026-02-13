@@ -8,6 +8,8 @@ node_modules
 out
 dist
 build
+*.tsbuildinfo
+.cache
 
 # Env
 .env
@@ -16,7 +18,8 @@ build
 .env.test.local
 .env.production.local
 
-# Debug
+# Debug / Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -35,3 +38,8 @@ Thumbs.db
 # Supabase (local CLI state, temp files)
 supabase/.branches
 supabase/.temp
+
+# Misc
+coverage
+.vercel
+.eslintcache

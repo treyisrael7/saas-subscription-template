@@ -3,7 +3,7 @@ import type { AuditLog } from "@/types/database";
 export function AuditLogList({ logs }: { logs: AuditLog[] }) {
   if (logs.length === 0) {
     return (
-      <div className="rounded-xl border border-neutral-800 bg-neutral-900/30 p-12 text-center">
+      <div className="card-glassy p-12 text-center">
         <p className="text-neutral-500">No events yet</p>
       </div>
     );
@@ -17,7 +17,7 @@ export function AuditLogList({ logs }: { logs: AuditLog[] }) {
   };
 
   return (
-    <div className="rounded-xl border border-neutral-800 bg-neutral-900/30 overflow-hidden">
+    <div className="card-glassy overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>

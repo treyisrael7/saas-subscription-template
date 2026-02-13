@@ -21,7 +21,7 @@ export function canAccessFeature(
   const featureTiers: Record<string, SubscriptionTier> = {
     api: "pro",
     team: "team",
-    sso: "enterprise",
+    sso: "team",
     priority_support: "pro",
   };
   return hasAccess(userTier, featureTiers[feature] ?? "free");
