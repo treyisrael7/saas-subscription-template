@@ -2,7 +2,7 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Subscription tiers enum
-CREATE TYPE subscription_tier AS ENUM ('free', 'pro', 'team', 'enterprise');
+CREATE TYPE subscription_tier AS ENUM ('free', 'pro', 'team');
 
 -- Profiles table (extends auth.users)
 CREATE TABLE public.profiles (

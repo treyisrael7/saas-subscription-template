@@ -4,7 +4,6 @@ const TIER_HIERARCHY: Record<SubscriptionTier, number> = {
   free: 0,
   pro: 1,
   team: 2,
-  enterprise: 3,
 };
 
 export function hasAccess(

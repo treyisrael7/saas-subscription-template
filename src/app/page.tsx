@@ -85,7 +85,7 @@ export default async function HomePage() {
                   />
                   <FeatureCard
                     title="Tiered Access"
-                    description="Free, Pro, Team, Enterprise. RLS and feature gating built-in."
+                    description="Free, Pro, Team. RLS and feature gating built-in."
                   />
                 </div>
               </section>

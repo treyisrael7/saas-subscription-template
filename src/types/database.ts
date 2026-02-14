@@ -1,4 +1,4 @@
-export type SubscriptionTier = "free" | "pro" | "team" | "enterprise";
+export type SubscriptionTier = "free" | "pro" | "team";
 
 export interface Profile {
   id: string;
