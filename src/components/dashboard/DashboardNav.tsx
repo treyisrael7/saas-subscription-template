@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useProfile } from "@/hooks/useProfile";
+import { useProfileContext } from "@/contexts/ProfileContext";
 import { hasAccess } from "@/lib/access";
+import { SignOutButton } from "@/components/auth/SignOutButton";
 import type { SubscriptionTier } from "@/types/database";
 
 const navItems: { href: string; label: string; minTier?: SubscriptionTier }[] = [
@@ -18,7 +19,7 @@ const navItems: { href: string; label: string; minTier?: SubscriptionTier }[] = 
 
 export function DashboardNav() {
   const pathname = usePathname();
-  const { profile } = useProfile();
+  const { profile } = useProfileContext();
 
   const tier = (profile?.subscription_tier ?? "free") as SubscriptionTier;
 
@@ -52,17 +53,11 @@ export function DashboardNav() {
           </nav>
           <div className="flex items-center gap-4">
             <span className="text-neutral-500 text-sm capitalize">{tier}</span>
-            <Link href="/" className="text-neutral-400 hover:text-white text-sm transition-colors">
-              Home
-            </Link>
             <form action="/api/auth/signout" method="POST">
-            <button
-              type="submit"
-              className="text-neutral-400 hover:text-white text-sm transition-colors"
-            >
-              Sign out
-            </button>
-          </form>
+              <SignOutButton className="text-neutral-400 hover:text-white text-sm transition-colors disabled:opacity-50">
+                Sign out
+              </SignOutButton>
+            </form>
           </div>
         </div>
       </div>

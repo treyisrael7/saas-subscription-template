@@ -1,11 +1,16 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { getAuth } from "@/lib/auth";
 import { AuthHeader } from "@/components/layout/AuthHeader";
 import HeroDashboardPreview from "@/components/HeroDashboardPreview";
 import { PricingContent } from "@/app/pricing/PricingContent";
 
 export default async function HomePage() {
-  const { user, profile } = await getAuth();
+  const { user } = await getAuth();
+
+  if (user) {
+    redirect("/dashboard");
+  }
 
   return (
     <div className="min-h-screen flex flex-col relative">
@@ -31,9 +36,8 @@ export default async function HomePage() {
         <AuthHeader />
 
         <main className="flex-1 px-4 sm:px-6 lg:px-8 pt-8 md:pt-12 pb-16 md:pb-24">
-          {!user ? (
-            <>
-              {/* Hero section – only for logged-out users */}
+          <>
+            {/* Hero section */}
               <section className="max-w-7xl mx-auto">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-12 lg:gap-16">
                   <div className="flex-1 max-w-2xl">
@@ -85,13 +89,12 @@ export default async function HomePage() {
                   />
                 </div>
               </section>
-            </>
-          ) : null}
 
-          {/* Pricing section – always shown; for logged-in users this is the main content */}
-          <section id="pricing" className={user ? "scroll-mt-24" : "mt-32 scroll-mt-24"}>
-            <PricingContent user={user} profile={profile} />
-          </section>
+            {/* Pricing section */}
+            <section id="pricing" className="mt-32 scroll-mt-24">
+              <PricingContent user={null} profile={null} />
+            </section>
+          </>
         </main>
       </div>
     </div>

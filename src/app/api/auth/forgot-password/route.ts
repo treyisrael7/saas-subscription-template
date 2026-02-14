@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { checkAuthRateLimit } from "@/lib/rate-limit";
-import { logAuditEvent, AUDIT_EVENTS } from "@/lib/audit";
 
 export async function POST(request: NextRequest) {
   const { allowed, retryAfter } = checkAuthRateLimit(request);
@@ -9,7 +8,7 @@ export async function POST(request: NextRequest) {
 
   if (!allowed) {
     const redirect = NextResponse.redirect(
-      new URL("/signup?error=rate_limited", baseUrl),
+      new URL("/forgot-password?error=rate_limited", baseUrl),
       302
     );
     if (retryAfter) redirect.headers.set("Retry-After", String(retryAfter));
@@ -18,40 +17,27 @@ export async function POST(request: NextRequest) {
 
   const formData = await request.formData();
   const email = (formData.get("email") as string)?.trim();
-  const password = formData.get("password") as string;
-  const fullName = (formData.get("fullName") as string)?.trim();
 
-  if (!email || !password || password.length < 6) {
+  if (!email) {
     return NextResponse.redirect(
-      new URL("/signup?error=missing", baseUrl),
+      new URL("/forgot-password?error=missing", baseUrl),
       302
     );
   }
 
   const supabase = await createClient();
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? baseUrl;
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: { full_name: fullName || undefined },
-      emailRedirectTo: `${appUrl}/auth/callback?next=/dashboard`,
-    },
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${appUrl}/auth/callback?next=/reset-password`,
   });
 
   if (error) {
     return NextResponse.redirect(
-      new URL("/signup?error=failed", baseUrl),
+      new URL("/forgot-password?error=failed", baseUrl),
       302
     );
   }
 
-  if (data.user) {
-    await logAuditEvent(AUDIT_EVENTS.USER_SIGNUP, {
-      userId: data.user.id,
-      eventData: { email: data.user.email },
-    });
-  }
-
-  return NextResponse.redirect(new URL("/signup?success=1", baseUrl), 302);
+  return NextResponse.redirect(new URL("/forgot-password?success=1", baseUrl), 302);
 }

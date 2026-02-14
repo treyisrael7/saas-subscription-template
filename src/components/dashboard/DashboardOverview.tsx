@@ -1,18 +1,18 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import type { User } from "@supabase/supabase-js";
-import type { Profile } from "@/types/database";
+import { useProfileContext } from "@/contexts/ProfileContext";
 
-interface DashboardOverviewProps {
-  profile: Profile | null;
-  user: User;
-}
-
-export function DashboardOverview({ profile, user }: DashboardOverviewProps) {
+export function DashboardOverview() {
+  const { profile, user, mutate } = useProfileContext();
   const searchParams = useSearchParams();
   const checkoutSuccess = searchParams.get("checkout") === "success";
+
+  useEffect(() => {
+    if (checkoutSuccess) mutate();
+  }, [checkoutSuccess, mutate]);
 
   return (
     <div className="space-y-8">
@@ -24,7 +24,7 @@ export function DashboardOverview({ profile, user }: DashboardOverviewProps) {
 
       <div>
         <h1 className="text-2xl font-bold text-white">
-          Welcome back, {profile?.full_name || user.email?.split("@")[0] || "User"}
+          Welcome back, {profile?.full_name || user?.email?.split("@")[0] || "User"}
         </h1>
         <p className="text-neutral-400 mt-1">
           You&apos;re on the <span className="capitalize text-neutral-300">{profile?.subscription_tier ?? "free"}</span> plan.
@@ -62,7 +62,7 @@ export function DashboardOverview({ profile, user }: DashboardOverviewProps) {
                 : "—"
             }
           />
-          <Stat label="Email" value={user.email ?? "—"} />
+          <Stat label="Email" value={user?.email ?? "—"} />
         </div>
       </div>
     </div>

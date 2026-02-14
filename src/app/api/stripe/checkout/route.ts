@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { requireAuth } from "@/lib/requireAuth";
 import { getStripe } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { logAuditEvent, AUDIT_EVENTS } from "@/lib/audit";
@@ -7,12 +7,9 @@ import { PLANS, type SubscriptionTier } from "@/lib/stripe";
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const auth = await requireAuth();
+    if ("unauthorized" in auth) return auth.unauthorized;
+    const { user } = auth;
 
     const { priceId, tier } = (await request.json()) as {
       priceId?: string;
@@ -78,7 +75,7 @@ export async function POST(request: NextRequest) {
       payment_method_types: ["card"],
       line_items: [{ price: finalPriceId, quantity: 1 }],
       success_url: `${appUrl}/dashboard?checkout=success`,
-      cancel_url: `${appUrl}/pricing?checkout=cancelled`,
+      cancel_url: `${appUrl}/?checkout=cancelled#pricing`,
       metadata: {
         supabase_user_id: user.id,
         tier: tier ?? "pro",

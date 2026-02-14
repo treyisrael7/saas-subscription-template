@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { PLANS } from "@/lib/stripe";
+import { TIERS } from "@/lib/tiers";
 import type { User } from "@supabase/supabase-js";
 import type { SubscriptionTier } from "@/types/database";
 
@@ -18,7 +19,6 @@ const PRICES: Record<string, { monthly: string; annual: string }> = {
 };
 
 /** 3 main plans for display: Free, Pro (middle/emphasized), Team */
-const DISPLAY_TIERS: (keyof typeof PLANS)[] = ["free", "pro", "team"];
 
 export function PricingContent({ user, profile }: PricingContentProps) {
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
@@ -83,7 +83,7 @@ export function PricingContent({ user, profile }: PricingContentProps) {
 
       {/* 3 pricing cards - middle (Pro) emphasized */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {DISPLAY_TIERS.map((tier) => {
+        {TIERS.map((tier) => {
           const plan = PLANS[tier];
           const isCurrent = profile?.subscription_tier === tier;
           const isPaid = tier !== "free";

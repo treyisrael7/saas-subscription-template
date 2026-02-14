@@ -171,6 +171,12 @@ export async function POST(request: NextRequest) {
               amountPaid: invoice.amount_paid,
             },
           });
+          if (invoice.billing_reason === "subscription_cycle") {
+            await logAuditEvent(AUDIT_EVENTS.SUBSCRIPTION_RENEWED, {
+              userId: profile.id,
+              eventData: { subscriptionId, invoiceId: invoice.id },
+            });
+          }
         }
         break;
       }

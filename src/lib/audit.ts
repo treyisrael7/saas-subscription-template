@@ -4,6 +4,7 @@ export const AUDIT_EVENTS = {
   USER_SIGNUP: "user.signup",
   USER_LOGIN: "user.login",
   USER_LOGOUT: "user.logout",
+  PASSWORD_RESET: "user.password_reset",
   PROFILE_UPDATE: "profile.update",
   SUBSCRIPTION_CREATED: "subscription.created",
   SUBSCRIPTION_UPDATED: "subscription.updated",

@@ -1,31 +1,17 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { hasAccess } from "@/lib/access";
-import type { SubscriptionTier } from "@/types/database";
+import { requireTier } from "@/lib/requireTier";
+import { DashboardPageShell } from "@/components/dashboard/DashboardPageShell";
 
 export default async function TeamPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("subscription_tier")
-    .eq("id", user.id)
-    .single();
-
-  const tier = (profile?.subscription_tier ?? "free") as SubscriptionTier;
-  if (!hasAccess(tier, "team")) {
-    redirect("/dashboard?upgrade=team");
-  }
+  await requireTier("team", "team");
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-2xl font-bold text-white">Team</h1>
-      <p className="text-neutral-400 mt-2">Team plan: Invite and manage team members.</p>
+    <DashboardPageShell
+      title="Team"
+      description="Team plan: Invite and manage team members."
+    >
       <div className="mt-8 card-glassy p-12 text-center">
         <p className="text-neutral-500">Team management UI goes here</p>
       </div>
-    </div>
+    </DashboardPageShell>
   );
 }

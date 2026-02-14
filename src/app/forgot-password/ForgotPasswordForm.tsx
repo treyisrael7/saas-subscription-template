@@ -9,12 +9,12 @@ import { AuthFormError } from "@/components/auth/AuthFormError";
 import { AuthSuccessMessage } from "@/components/auth/AuthSuccessMessage";
 
 const ERROR_MESSAGES: Record<string, string> = {
-  failed: "Unable to create account. Please try again.",
+  failed: "Unable to send reset email. Please try again.",
   rate_limited: "Too many attempts. Please try again later.",
-  missing: "Please provide all required fields.",
+  missing: "Please enter your email address.",
 };
 
-export function SignupForm() {
+export function ForgotPasswordForm() {
   const searchParams = useSearchParams();
   const success = searchParams.get("success") === "1";
   const errorCode = searchParams.get("error");
@@ -25,7 +25,7 @@ export function SignupForm() {
     return (
       <AuthSuccessMessage
         title="Check your email"
-        message="We sent a confirmation link to your email address. Click the link to activate your account."
+        message="We sent a password reset link to your email address. Click the link to set a new password."
       />
     );
   }
@@ -33,23 +33,22 @@ export function SignupForm() {
   return (
     <div className="w-full max-w-md space-y-8">
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-white">Create account</h1>
+        <h1 className="text-3xl font-bold text-white">Reset password</h1>
         <p className="mt-2 text-neutral-400">
-          Already have an account?{" "}
+          Enter your email and we&apos;ll send you a reset link.{" "}
           <Link href="/login" className="text-white hover:underline">
-            Sign in
+            Back to sign in
           </Link>
         </p>
       </div>
 
       <form
-        action="/api/auth/signup"
+        action="/api/auth/forgot-password"
         method="POST"
         className="space-y-6"
         onSubmit={() => setSubmitting(true)}
       >
         {errorMessage && <AuthFormError message={errorMessage} />}
-        <FormInput id="fullName" name="fullName" label="Full name" type="text" placeholder="Jane Doe" />
         <FormInput
           id="email"
           name="email"
@@ -58,17 +57,8 @@ export function SignupForm() {
           required
           placeholder="you@example.com"
         />
-        <FormInput
-          id="password"
-          name="password"
-          label="Password"
-          type="password"
-          required
-          minLength={6}
-          placeholder="At least 6 characters"
-        />
-        <SubmitButton disabled={submitting} loading={submitting} loadingText="Creating account...">
-          Create account
+        <SubmitButton disabled={submitting} loading={submitting} loadingText="Sending...">
+          Send reset link
         </SubmitButton>
       </form>
     </div>

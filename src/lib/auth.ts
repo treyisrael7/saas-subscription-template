@@ -17,7 +17,7 @@ export const getAuth = cache(async () => {
     }
   }
   const { data: profile } = user
-    ? await supabase.from("profiles").select("subscription_tier").eq("id", user.id).single()
+    ? await supabase.from("profiles").select("*").eq("id", user.id).single()
     : { data: null };
   return { user, profile };
 });

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { User } from "@supabase/supabase-js";
 import type { Profile } from "@/types/database";
+import { SignOutButton } from "@/components/auth/SignOutButton";
 
 interface HeaderProps {
   user?: User | null;
@@ -39,12 +40,9 @@ export function Header({ user = null, profile = null }: HeaderProps) {
                   {profile?.subscription_tier ?? "free"}
                 </span>
                 <form action="/api/auth/signout" method="POST">
-                  <button
-                    type="submit"
-                    className="btn-ghost px-4 py-2 text-sm"
-                  >
+                  <SignOutButton className="btn-ghost px-4 py-2 text-sm">
                     Sign out
-                  </button>
+                  </SignOutButton>
                 </form>
               </>
             ) : (
